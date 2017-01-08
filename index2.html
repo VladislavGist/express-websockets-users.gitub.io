@@ -1,0 +1,27 @@
+<!--это файл клиента который будет обращаться к серверу-->
+
+<!--магическая строка. пдключили клиенту вебсокеты-->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+	//с каким url будем соеденяться для работы. на этом url и есть сервер
+	var socket = io.connect("http://localhost:8080");
+
+	window.onunload = () => {
+		socket.disconnect();
+	};
+
+	socket.on("hello", data => {
+		alert(data.hello);
+	});
+
+	var getname = first => {
+		var name = prompt("Как вас зовут?", "User");
+		if(name) {
+				socket.emit("message", name);
+			// else
+			// 	socket.emit("new_message", name);
+		}
+	};
+</script>
+<button onclick="getname()">Your name, please</button>
+<button onclick="getname()">Rename</button>
